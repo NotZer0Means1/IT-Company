@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 
 namespace IT_Company
@@ -7,29 +8,8 @@ namespace IT_Company
     {
         public static void main(String[] args)
         {
-
-
-
+            
         }
 
-    }
-
-    class Worker {
-        public Worker(double salary, String typeOfProjects, int[] term) { 
-        
-        
-        }
-    }
-
-    class SoftwareEngineer : Worker {  // добавить скиллы к каждому классуб например знание япов и 
-    
-    }
-
-    class Tester : Worker { 
-    
-    }
-
-    class DevOpsEngineer : Worker { 
-    
     }
 }
