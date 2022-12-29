@@ -5,9 +5,9 @@ namespace IT_Company
     class Company
     {
 
-        struct Worker {
+        struct Employee {
 
-            public String[] fullname;
+            public String fullname;
             public int age;
             public String specialization;
             public String position;
@@ -19,16 +19,19 @@ namespace IT_Company
 
         struct Client {
 
-            public String[] fullname;
+            public String fullname;
             public int age;
-            public double capital;
             public String task;
+            public double capital; 
 
         }
 
         static void Main(String[] args)
         {
+            repeatMenu:
             menu();
+            chooseMenuItem();
+            goto repeatMenu;
         }
 
         public static void menu() {
@@ -55,7 +58,6 @@ namespace IT_Company
             Console.WriteLine("7. list of available statistics.");
             Console.ForegroundColor = ConsoleColor.Blue;
 
-
         }
 
 
@@ -63,13 +65,131 @@ namespace IT_Company
             /* 
              * prints "-----..." line, which devides sections to beautiful parts.
              */
-
-            int counter = 0;
-
-            while (counter != Console.WindowWidth ) {
+            for (int i = 0; i < Console.WindowWidth; i++)
+            {
                 Console.Write("-");
-                counter++;
             }
+
+        }
+
+        static void chooseMenuItem() {
+
+            repeat:
+            Console.WriteLine("Choose menu item: ");
+            int k = Convert.ToInt32(Console.ReadLine());
+
+            if (k > 7) {
+
+                Console.WriteLine("Choose the correct menu item!");
+                goto repeat; 
+            
+            }
+
+            Console.Clear();
+
+            switch (k)
+            {
+
+                case 1:
+                    createNewProfileOfEmployee();
+                    break;
+                case 2:
+                    createNewprofileOfClient();
+                    break;
+                case 3:
+                    changeProfileOfEmployee();
+                    break;
+                case 4:
+                    changeProfileOfClient();
+                    break;
+                case 5:
+                    deleteProfileOfEmployee();
+                    break;
+                case 6:
+                    deleteProfileOfClient();
+                    break;
+                case 7:
+
+                    break;
+
+            }
+        }
+
+        static void successNotification() {
+
+            ConsoleColor oldForegroundColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("New profile was created succesfully!");
+            Console.ForegroundColor = oldForegroundColor;
+
+        }
+
+        static void createNewProfileOfEmployee() { 
+        
+            Employee employee = new Employee();
+            Console.WriteLine("Input Employee's fullname: ");
+            employee.fullname = Console.ReadLine();
+            Console.WriteLine("Input Employee's age: ");
+            employee.age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Input Employee's specialization: ");
+            employee.specialization = Console.ReadLine();
+            Console.WriteLine("Input Employee's position: ");
+            employee.position = Console.ReadLine();
+            Console.WriteLine("Input project employee will working on: ");
+            employee.project = Console.ReadLine();
+            Console.WriteLine("Input Employee's salary: ");
+            employee.salary = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Input Employee's term of work (in months): ");
+            employee.termOfWork = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+            successNotification();
+            Console.ReadKey();
+            Console.Clear();
+
+        }
+
+        static void createNewprofileOfClient() {
+
+            Client client = new Client();
+            Console.WriteLine("Input Client's fullname: ");
+            client.fullname = Console.ReadLine();
+            Console.WriteLine("Input Client's age: ");
+            client.age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Input Client's task: ");
+            client.task = Console.ReadLine();
+            Console.WriteLine("Input Client's capital: ");
+            client.capital = Convert.ToDouble(Console.ReadLine());
+            Console.Clear();
+            successNotification();
+            Console.ReadKey();
+            Console.Clear();
+
+        }
+
+        static void changeProfileOfEmployee() { 
+        
+            
+        
+        }
+
+        static void changeProfileOfClient() {
+
+
+
+        }
+
+        static void deleteProfileOfEmployee()
+        {
+
+
+
+        }
+
+        static void deleteProfileOfClient()
+        {
+
+
+
         }
 
 
