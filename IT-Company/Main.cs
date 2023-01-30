@@ -7,30 +7,33 @@ namespace IT_Company
     {
         public const String PathToWorkers = "D:\\programming\\visualstudio\\IT-Company\\IT-Company\\WorkerExamples.txt";
         public const String PathToClients = "D:\\programming\\visualstudio\\IT-Company\\IT-Company\\ClientExamples.txt";
+        static public List<String> listOfWorkers = new List<String>();
+        static public List<String> listOfClients = new List<String>();
 
         struct Employee {
 
             public String fullname;
-            public int age;
+            public String age;
             public String specialization;
             public String position;
             public String project;
-            public double salary;
-            public int termOfWork;
+            public String salary;
+            public String termOfWork;
 
         }
 
         struct Client {
 
             public String fullname;
-            public int age;
+            public String age;
             public String task;
-            public double capital; 
+            public String capital; 
 
         }
 
         static void Main(String[] args)
         {
+            ReadFile();
             repeatMenu:
             menu();
             chooseMenuItem();
@@ -78,7 +81,11 @@ namespace IT_Company
 
         static void chooseMenuItem() {
 
-            int k = 1;
+            /*
+             * function which allow to choose menu items using arrows
+             */
+
+            int counter = 1;
             int position = 4;
             while (true) {
                 ConsoleKeyInfo key = Console.ReadKey(true);
@@ -91,7 +98,7 @@ namespace IT_Company
                     }
                     else
                     {
-                        k += 1;
+                        counter += 1;
                         position += 1;
                     }
 
@@ -104,7 +111,7 @@ namespace IT_Company
                     }
                     else
                     {
-                        k -= 1;
+                        counter -= 1;
                         position -= 1;
                     }
 
@@ -119,7 +126,7 @@ namespace IT_Company
             }
             Console.Clear();
 
-            switch (k)
+            switch (counter)
             {
 
                 case 1:
@@ -141,26 +148,51 @@ namespace IT_Company
                     deleteProfileOfClient();
                     break;
                 case 7:
+                    foreach (var item in listOfWorkers)
+                    {
+                        Console.WriteLine(item);
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
                     break;
 
             }
         }
 
-        static void ReadFile(String path) {
+        static void ReadFile() {
 
-             using (StreamReader reader = new StreamReader(path)) {
+            /*
+             * reading files with employee's and client's information at the beginning of the program
+             */
 
-                string text =  reader.ReadToEnd();
-                Console.WriteLine(text);
+             using (StreamReader reader = new StreamReader(PathToWorkers)) {
+
+                while (!reader.EndOfStream) { 
+                    string line  = reader.ReadLine();
+                    listOfWorkers.Add(line);
+                }
 
             }
-            Console.ReadKey();
-            Console.Clear();
+
+            using (StreamReader reader = new StreamReader(PathToClients))
+            {
+
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    listOfClients.Add(line);
+                }
+
+            }
         
         }
 
 
         static void successNotification() {
+
+            /*
+             * Creating success notification
+             */
 
             Console.Clear();
             ConsoleColor oldForegroundColor = Console.ForegroundColor;
@@ -172,35 +204,113 @@ namespace IT_Company
 
         }
 
+
+        static void changeAttribute(String name, String newAttribute, int index, List<String> list, String path)
+
+            /*
+             * changing any attribute of client or employee
+             */
+
+        {
+
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                if (list[i].Equals(name))
+                {
+                    list[i + index] = newAttribute;
+
+                }
+
+            }
+
+            using (StreamWriter streamWriter = new StreamWriter(path, false))
+            {
+
+                foreach (var item in list)
+                {
+                    streamWriter.WriteLine(item);
+
+                }
+
+            }
+
+        }
+
+        static void deleteProfile(String name, bool profile, List<String> list, String path) {
+
+            /*
+             * universal function for deleting profile of employee or client
+             */
+
+            for (int i = 0; i < list.Count; i++) {
+
+                if (list[i].Equals(name)) {
+                    if (profile)
+                    {
+                        for (int j = 0; i < 8; i++)
+                        {
+                            list.RemoveAt(j);
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        for (int j = 0; i < 4; i++)
+                        {
+                            list.RemoveAt(j);
+                        }
+                        break;
+                    }   
+                    
+                }
+
+            }
+
+            using (StreamWriter streamWriter = new StreamWriter(path, false))
+            {
+
+                foreach (var item in list)
+                {
+                    streamWriter.WriteLine(item);
+
+                }
+            }
+        }
+
         static void createNewProfileOfEmployee() { 
         
             Employee employee = new Employee();
             Console.WriteLine("Input Employee's fullname: ");
             employee.fullname = Console.ReadLine();
+            listOfWorkers.Add(employee.fullname);
             Console.WriteLine("Input Employee's age: ");
-            employee.age = Convert.ToInt32(Console.ReadLine());
+            employee.age = Console.ReadLine();
+            listOfWorkers.Add(employee.age);
             Console.WriteLine("Input Employee's specialization: ");
             employee.specialization = Console.ReadLine();
+            listOfWorkers.Add(employee.specialization);
             Console.WriteLine("Input Employee's position: ");
             employee.position = Console.ReadLine();
+            listOfWorkers.Add(employee.position);
             Console.WriteLine("Input project employee will working on: ");
             employee.project = Console.ReadLine();
+            listOfWorkers.Add(employee.project);
             Console.WriteLine("Input Employee's salary: ");
-            employee.salary = Convert.ToDouble(Console.ReadLine());
+            employee.salary = Console.ReadLine();
+            listOfWorkers.Add(employee.salary);
             Console.WriteLine("Input Employee's term of work (in months): ");
-            employee.termOfWork = Convert.ToInt32(Console.ReadLine());
+            employee.termOfWork = Console.ReadLine();
+            listOfWorkers.Add(employee.termOfWork);
+            listOfWorkers.Add("\n");
 
             using (StreamWriter streamWriter = new StreamWriter(PathToWorkers, true))
             {
 
-                streamWriter.WriteLine("\n");
-                streamWriter.WriteLine(employee.fullname);
-                streamWriter.WriteLine(employee.age);
-                streamWriter.WriteLine(employee.specialization);
-                streamWriter.WriteLine(employee.position);
-                streamWriter.WriteLine(employee.project);
-                streamWriter.WriteLine(employee.salary);
-                streamWriter.WriteLine(employee.termOfWork);
+                foreach (var item in listOfWorkers)
+                {
+                    streamWriter.WriteLine(item);
+                }
 
             }
 
@@ -213,21 +323,25 @@ namespace IT_Company
             Client client = new Client();
             Console.WriteLine("Input Client's fullname: ");
             client.fullname = Console.ReadLine();
+            listOfClients.Add(client.fullname);
             Console.WriteLine("Input Client's age: ");
-            client.age = Convert.ToInt32(Console.ReadLine());
+            client.age = Console.ReadLine();
+            listOfClients.Add(client.age);
             Console.WriteLine("Input Client's task: ");
             client.task = Console.ReadLine();
+            listOfClients.Add(client.task);
             Console.WriteLine("Input Client's capital: ");
-            client.capital = Convert.ToDouble(Console.ReadLine());
+            client.capital = Console.ReadLine();
+            listOfClients.Add(client.capital);
+            listOfClients.Add("\n");
 
             using (StreamWriter streamWriter = new StreamWriter(PathToClients, true))
             {
 
-                streamWriter.WriteLine("\n");
-                streamWriter.WriteLine(client.fullname);
-                streamWriter.WriteLine(client.age);
-                streamWriter.WriteLine(client.task);
-                streamWriter.WriteLine(client.capital);
+                foreach (var item in listOfClients)
+                {
+                    streamWriter.WriteLine(item);
+                }
 
             }
 
@@ -237,43 +351,165 @@ namespace IT_Company
 
         static void changeProfileOfEmployee() {
             Console.Clear();
-            Console.WriteLine("Choose which employee you want to change: ");
-            Console.WriteLine("Choose what attribute(s) you want to change: ");
-            String fullname = "1. fullname";
-            String age = "2. age";
-            String specialization = "3. specialization";
-            String position = "4. position";
-            String project = "5. project";
-            String salary = "6. salary";
-            String term = "7. term of work";
+            Console.WriteLine("Input the name of employee: ");
+            String nameOfEmployee = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Choose what attribute you want to change: ");
+            Console.WriteLine( "1. fullname");
+            Console.WriteLine("2. age");
+            Console.WriteLine("3. specialization");
+            Console.WriteLine("4. position");
+            Console.WriteLine("5. project");
+            Console.WriteLine("6. salary");
+            Console.WriteLine("7. term of work");
+
+            int counter = 1;
+            int currentPosition = 1;
+            while (true)
+            {
+                Console.SetCursorPosition(0, currentPosition);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.DownArrow)
+                {
+
+                    if (currentPosition + 1 == 8)
+                    {
+                        currentPosition = 1;
+                    }
+                    else
+                    {
+                        counter += 1;
+                        currentPosition += 1;
+                    }
+
+                }
+                else if (key.Key == ConsoleKey.UpArrow)
+                {
+
+                    if (currentPosition - 1 == 0)
+                    {
+                        currentPosition = 7;
+                    }
+                    else
+                    {
+                        counter -= 1;
+                        currentPosition -= 1;
+                    }
+
+                }
+                else if (key.Key == ConsoleKey.Enter)
+                {
+
+                    break;
+
+                }
+
+            }
+            Console.Clear();
+            Console.WriteLine("Input changes: ");
+            String changes = Console.ReadLine();
+
+            changeAttribute(nameOfEmployee, changes, counter - 1, listOfWorkers, PathToWorkers);
+
             
+            successNotification();
             
 
-
-
-            
         }
 
         static void changeProfileOfClient() {
+            Console.Clear();
+            Console.WriteLine("Input the name of client: ");
+            String nameOfClient = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Choose what attribute you want to change: ");
+            Console.WriteLine("1. fullname");
+            Console.WriteLine("2. age");
+            Console.WriteLine("3. task");
+            Console.WriteLine("4. capital");
 
+            int counter = 1;
+            int currentPosition = 1;
+            while (true)
+            {
+                Console.SetCursorPosition(0, currentPosition);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.DownArrow)
+                {
+
+                    if (currentPosition + 1 == 5)
+                    {
+                        currentPosition = 1;
+                    }
+                    else
+                    {
+                        counter += 1;
+                        currentPosition += 1;
+                    }
+
+                }
+                else if (key.Key == ConsoleKey.UpArrow)
+                {
+
+                    if (currentPosition - 1 == 0)
+                    {
+                        currentPosition = 4;
+                    }
+                    else
+                    {
+                        counter -= 1;
+                        currentPosition -= 1;
+                    }
+
+                }
+                else if (key.Key == ConsoleKey.Enter)
+                {
+
+                    break;
+
+                }
+
+            }
+            Console.Clear();
+            Console.WriteLine("Input changes: ");
+            String changes = Console.ReadLine();
+
+            changeAttribute(nameOfClient, changes, counter - 1, listOfClients, PathToClients);
+
+
+            successNotification();
 
 
         }
 
         static void deleteProfileOfEmployee()
         {
+            Console.Clear();
+            Console.WriteLine("Input the name of employee: ");
+            String nameOfEmployee = Console.ReadLine();
+            Console.Clear();
 
+            deleteProfile(nameOfEmployee, true, listOfWorkers, PathToWorkers);
 
+            successNotification();
 
         }
 
         static void deleteProfileOfClient()
         {
+            Console.Clear();
+            Console.WriteLine("Input the name of client: ");
+            String nameOfEmployee = Console.ReadLine();
+            Console.Clear();
 
+            deleteProfile(nameOfEmployee, false, listOfWorkers, PathToClients);
+
+            successNotification();
 
 
         }
-
 
 
     }
