@@ -79,22 +79,20 @@ namespace IT_Company
 
         }
 
-        static void chooseMenuItem() {
-
-            /*
-             * function which allow to choose menu items using arrows
-             */
-
-            int counter = 1;
-            int position = 4;
-            while (true) {
+        static int arrowFunc(int counter, int position, int minItem, int maxItem) {
+            
+            while (true)
+            {
+                Console.SetCursorPosition(0, position);
                 ConsoleKeyInfo key = Console.ReadKey(true);
-                
-                if (key.Key == ConsoleKey.DownArrow) {
 
-                    if (position + 1 == 11)
+                if (key.Key == ConsoleKey.DownArrow)
+                {
+
+                    if (position + 1 == maxItem+1)
                     {
-                        position = 4;
+                        position = minItem;
+                        counter = 1;
                     }
                     else
                     {
@@ -103,11 +101,13 @@ namespace IT_Company
                     }
 
                 }
-                else if (key.Key == ConsoleKey.UpArrow) {
+                else if (key.Key == ConsoleKey.UpArrow)
+                {
 
-                    if (position - 1 == 3)
+                    if (position - 1 == minItem - 1)
                     {
-                        position = 10;
+                        position = maxItem;
+                        counter = maxItem - minItem + 1;
                     }
                     else
                     {
@@ -116,14 +116,25 @@ namespace IT_Company
                     }
 
                 }
-                else if (key.Key == ConsoleKey.Enter) { 
-
-                    break; 
-
+                else if (key.Key == ConsoleKey.Enter)
+                {
+                    return counter;
+                    
                 }
-                Console.SetCursorPosition(0, position);
 
+                
             }
+
+        }
+
+        static void chooseMenuItem() {
+
+            /*
+             * function which allow to choose menu items using arrows
+             */
+            int counter = arrowFunc(1, 4, 4, 10);
+            
+          
             Console.Clear();
 
             switch (counter)
@@ -148,12 +159,7 @@ namespace IT_Company
                     deleteProfileOfClient();
                     break;
                 case 7:
-                    foreach (var item in listOfWorkers)
-                    {
-                        Console.WriteLine(item);
-                    }
-                    Console.ReadKey();
-                    Console.Clear();
+                    filtrationMenu();
                     break;
 
             }
@@ -278,6 +284,269 @@ namespace IT_Company
             }
         }
 
+        static void filterByMoney(List<String> list, int flag, int flag2) {
+
+            Console.Clear();
+            Console.Write("Input salary: ");
+            int request = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+
+            List<String> names = new List<String>();
+            List<String> money = new List<String>();
+            List<String> res = new List<String>();
+
+            if (flag == 0)
+            {
+
+                for (int i = 0; i < list.Count; i++)
+                {
+
+                    if (i % 8 == 0)
+                    {
+                        names.Add(list[i]);
+                    }
+                    if (i % 8 == 5)
+                    {
+                        money.Add(list[i]);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+
+                    if (i % 5 == 0)
+                    {
+                        names.Add(list[i]);
+                    }
+                    if (i % 5 == 3)
+                    {
+                        money.Add(list[i]);
+                    }
+                }
+            }
+
+            if (flag2 == 0)
+            {
+                for (int i = 0; i < names.Count; i++)
+                {
+
+                    if (Convert.ToInt32(money[i]) > request)
+                    {
+                        res.Add(names[i]);
+                        res.Add((String)money[i]);
+
+                    }
+
+                }
+                if (res.Count == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("No results");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+
+                    Console.Clear();
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        Console.WriteLine(res[i]);
+
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+
+            }
+            else {
+                for (int i = 0; i < names.Count; i++)
+                {
+
+                    if (Convert.ToInt32(money[i]) < request)
+                    {
+                        res.Add(names[i]);
+                        res.Add((String)money[i]);
+
+                    }
+
+                }
+                if (res.Count == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("No results");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.Clear();
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        Console.WriteLine(res[i]);
+
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+
+            }
+
+        }
+        
+
+        static void filterByAge(List<String> list, int flag, int flag2) {
+
+            Console.Clear();
+            Console.Write("Input age: ");
+            int request = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+
+
+            List<String> names = new List<String>();
+            List<String> ages = new List<String>();
+            List<String> res = new List<String>();
+
+            if (flag2 == 0)
+            {
+
+                for (int i = 0; i < list.Count; i++)
+                {
+
+                    if (i % 8 == 0)
+                    {
+                        names.Add(list[i]);
+                    }
+                    if (i % 8 == 1)
+                    {
+                        ages.Add(list[i]);
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < list.Count; i++)
+                {
+
+                    if (i % 5 == 0)
+                    {
+                        names.Add(list[i]);
+                    }
+                    if (i % 5 == 1)
+                    {
+                        ages.Add(list[i]);
+                    }
+                }
+            }
+
+            if (flag == 0)
+            {
+                for (int i = 0; i < names.Count; i++)
+                {
+
+                    if (Convert.ToInt32(ages[i]) > request)
+                    {
+                        res.Add(names[i]);
+                        res.Add((String)ages[i]);
+                        
+                    }
+
+                }
+
+                if (res.Count == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("No results");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else {
+
+                    Console.Clear();
+                    for (int i = 0; i < res.Count; i++) { 
+                        Console.WriteLine(res[i]);
+                        
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+
+            }
+            else if (flag == 1)
+            {
+                for (int i = 0; i < names.Count; i++)
+                {
+
+                    if (Convert.ToInt32(ages[i]) < request)
+                    {
+                        res.Add(names[i]);
+                        res.Add((String)ages[i]);
+                        
+                    }
+
+                }
+                if (res.Count == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("No results");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else {
+                    Console.Clear();
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        Console.WriteLine(res[i]);
+                        
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+
+            }
+            else {
+                for (int i = 0; i < names.Count; i++)
+                {
+
+                    if (Convert.ToInt32(ages[i]) == request)
+                    {
+                        res.Add(names[i]);
+                        res.Add((String)ages[i]);
+                        
+                    }
+
+                }
+                if (res.Count == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("No results");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else {
+                    Console.Clear();
+                    for (int i = 0; i < res.Count; i++)
+                    {
+                        Console.WriteLine(res[i]);
+                        
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+
+
+            }
+
+
+        }
+
+
         static void createNewProfileOfEmployee() { 
         
             Employee employee = new Employee();
@@ -363,49 +632,8 @@ namespace IT_Company
             Console.WriteLine("6. salary");
             Console.WriteLine("7. term of work");
 
-            int counter = 1;
-            int currentPosition = 1;
-            while (true)
-            {
-                Console.SetCursorPosition(0, currentPosition);
-                ConsoleKeyInfo key = Console.ReadKey(true);
+            int counter = arrowFunc(1, 1, 1, 7);
 
-                if (key.Key == ConsoleKey.DownArrow)
-                {
-
-                    if (currentPosition + 1 == 8)
-                    {
-                        currentPosition = 1;
-                    }
-                    else
-                    {
-                        counter += 1;
-                        currentPosition += 1;
-                    }
-
-                }
-                else if (key.Key == ConsoleKey.UpArrow)
-                {
-
-                    if (currentPosition - 1 == 0)
-                    {
-                        currentPosition = 7;
-                    }
-                    else
-                    {
-                        counter -= 1;
-                        currentPosition -= 1;
-                    }
-
-                }
-                else if (key.Key == ConsoleKey.Enter)
-                {
-
-                    break;
-
-                }
-
-            }
             Console.Clear();
             Console.WriteLine("Input changes: ");
             String changes = Console.ReadLine();
@@ -429,49 +657,8 @@ namespace IT_Company
             Console.WriteLine("3. task");
             Console.WriteLine("4. capital");
 
-            int counter = 1;
-            int currentPosition = 1;
-            while (true)
-            {
-                Console.SetCursorPosition(0, currentPosition);
-                ConsoleKeyInfo key = Console.ReadKey(true);
+            int counter = arrowFunc(1, 1, 1, 4);
 
-                if (key.Key == ConsoleKey.DownArrow)
-                {
-
-                    if (currentPosition + 1 == 5)
-                    {
-                        currentPosition = 1;
-                    }
-                    else
-                    {
-                        counter += 1;
-                        currentPosition += 1;
-                    }
-
-                }
-                else if (key.Key == ConsoleKey.UpArrow)
-                {
-
-                    if (currentPosition - 1 == 0)
-                    {
-                        currentPosition = 4;
-                    }
-                    else
-                    {
-                        counter -= 1;
-                        currentPosition -= 1;
-                    }
-
-                }
-                else if (key.Key == ConsoleKey.Enter)
-                {
-
-                    break;
-
-                }
-
-            }
             Console.Clear();
             Console.WriteLine("Input changes: ");
             String changes = Console.ReadLine();
@@ -511,6 +698,120 @@ namespace IT_Company
 
         }
 
+        static void filtrationMenu() {
+            Console.Clear();
+            Console.WriteLine("Choose category: ");
+            Console.WriteLine("1. Employees");
+            Console.WriteLine("2. Clients");
 
+            int cursor = arrowFunc(1, 1, 1, 2);
+            Console.Clear();
+            if (cursor == 1)
+            {
+
+                Console.WriteLine("Choose type of filtration: ");
+                Console.WriteLine("1. Salary: High -> Low");
+                Console.WriteLine("2. Salary: Low -> High");
+                Console.WriteLine("3. Age: High -> Low");
+                Console.WriteLine("4. Age: Low -> High");
+                Console.WriteLine("5. Filter by age: older than x");
+                Console.WriteLine("6. Filter by age: younger than x");
+                Console.WriteLine("7. Filter by age: equals to x");
+                Console.WriteLine("8. Filter by salary: more than x");
+                Console.WriteLine("9. Filter by salary: less than x");
+
+
+                int res = arrowFunc(1, 1, 1, 9);
+                
+
+                switch (res) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        
+                        filterByAge(listOfWorkers, 0, 0);
+                        break;
+                    case 6:
+                       
+                        filterByAge(listOfWorkers, 1, 0);
+                        break;
+
+                    case 7:
+
+                        filterByAge(listOfWorkers, 2, 0);
+                        break;
+                    case 8:
+                        filterByMoney(listOfWorkers, 0, 0);
+                        break;
+                    case 9:
+                        filterByMoney(listOfWorkers, 0, 1);
+                        break;
+
+
+
+
+                }
+
+            }
+            else {
+
+                Console.WriteLine("Choose type of filtration: ");
+                Console.WriteLine("1. Capital: High -> Low");
+                Console.WriteLine("2. Capital: Low -> High");
+                Console.WriteLine("3. Age: High -> Low");
+                Console.WriteLine("4. Age: Low -> High");
+                Console.WriteLine("5. Filter by age: older than x");
+                Console.WriteLine("6. Filter by age: younger than x");
+                Console.WriteLine("7. Filter by age: equals to x");
+                Console.WriteLine("8. Filter by capital: more than x");
+                Console.WriteLine("9. Filter by capital: less than x");
+
+
+                int res = arrowFunc(1, 1, 1, 9);
+                
+
+                switch (res)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+
+                        filterByAge(listOfClients, 0, 1);
+                        break;
+                    case 6:
+
+                        filterByAge(listOfClients, 1, 1);
+                        break;
+
+                    case 7:
+
+                        filterByAge(listOfClients, 2, 1);
+                        break;
+                    case 8:
+                        filterByMoney(listOfWorkers, 1, 0);
+                        break;
+                    case 9:
+                        filterByMoney(listOfWorkers, 1, 1);
+                        break;
+
+
+
+                }
+
+            }
+
+        }
     }
 }
