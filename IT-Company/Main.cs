@@ -284,6 +284,103 @@ namespace IT_Company
             }
         }
 
+        static void sortByMoney(List<String> list, int who, int flag) {
+
+            Console.Clear();
+
+            List<String> names = new List<String>();
+            List<int> temp = new List<int>();
+
+            if (who == 0)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (i % 8 == 0) {
+
+                        names.Add(list[i]);
+                    
+                    }
+
+                    if (i % 8 == 5)
+                    {
+                        temp.Add(Convert.ToInt32(list[i]));
+                    }
+
+                }
+            }
+            else {
+
+                for (int i = 0; i < list.Count; i++)
+                {
+
+                    if (i % 5 == 0) {
+                        names.Add(list[i]);
+                    }
+
+                    if (i % 5 == 3)
+                    {
+                        temp.Add(Convert.ToInt32(list[i]));
+                    }
+
+                }
+
+            }
+
+            if (temp.Count == 1)
+            {
+                Console.Clear();
+                Console.WriteLine("No results");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                List<int> res = temp;
+                if (flag == 0)
+                {
+                    temp.Sort();
+                    foreach (var item in temp)
+                    {
+                        for (int i = 0; i < res.Count; i++)
+                        {
+
+                            if (item == res[i])
+                            {
+                                Console.WriteLine("{0} --> {1}", names[i], item);
+                            }
+
+                        }
+                    }
+
+
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+                    temp.Sort();
+                    temp.Reverse();
+                    foreach (var item in temp)
+                    {
+                        for (int i = 0; i < res.Count; i++)
+                        {
+
+                            if (item == res[i])
+                            {
+                                Console.WriteLine("{0} --> {1}", names[i], item);
+                            }
+
+                        }
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+
+                }
+            }
+        
+        }
+
+
         static void filterByMoney(List<String> list, int flag, int flag2) {
 
             Console.Clear();
@@ -710,99 +807,88 @@ namespace IT_Company
             {
 
                 Console.WriteLine("Choose type of filtration: ");
-                Console.WriteLine("1. Salary: High -> Low");
-                Console.WriteLine("2. Salary: Low -> High");
-                Console.WriteLine("3. Age: High -> Low");
-                Console.WriteLine("4. Age: Low -> High");
-                Console.WriteLine("5. Filter by age: older than x");
-                Console.WriteLine("6. Filter by age: younger than x");
-                Console.WriteLine("7. Filter by age: equals to x");
-                Console.WriteLine("8. Filter by salary: more than x");
-                Console.WriteLine("9. Filter by salary: less than x");
+                Console.WriteLine("1. Sort salary: High -> Low");
+                Console.WriteLine("2. Sort salary: Low -> High");
+                Console.WriteLine("3. Filter by age: older than x");
+                Console.WriteLine("4. Filter by age: younger than x");
+                Console.WriteLine("5. Filter by age: equals to x");
+                Console.WriteLine("6. Filter by salary: more than x");
+                Console.WriteLine("7. Filter by salary: less than x");
 
 
-                int res = arrowFunc(1, 1, 1, 9);
+                int res = arrowFunc(1, 1, 1, 7);
                 
 
                 switch (res) {
                     case 1:
+                        sortByMoney(listOfWorkers, 0, 1);
                         break;
                     case 2:
+                        sortByMoney(listOfWorkers, 0, 0);
                         break;
                     case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
                         
                         filterByAge(listOfWorkers, 0, 0);
                         break;
-                    case 6:
+                    case 4:
                        
                         filterByAge(listOfWorkers, 1, 0);
                         break;
 
-                    case 7:
+                    case 5:
 
                         filterByAge(listOfWorkers, 2, 0);
                         break;
-                    case 8:
+                    case 6:
                         filterByMoney(listOfWorkers, 0, 0);
                         break;
-                    case 9:
+                    case 7:
                         filterByMoney(listOfWorkers, 0, 1);
                         break;
-
-
-
 
                 }
 
             }
             else {
 
-                Console.WriteLine("Choose type of filtration: ");
-                Console.WriteLine("1. Capital: High -> Low");
-                Console.WriteLine("2. Capital: Low -> High");
-                Console.WriteLine("3. Age: High -> Low");
-                Console.WriteLine("4. Age: Low -> High");
-                Console.WriteLine("5. Filter by age: older than x");
-                Console.WriteLine("6. Filter by age: younger than x");
-                Console.WriteLine("7. Filter by age: equals to x");
-                Console.WriteLine("8. Filter by capital: more than x");
-                Console.WriteLine("9. Filter by capital: less than x");
+                Console.WriteLine("Choose type of filtration|sorting: ");
+                Console.WriteLine("1. Sort capital: High -> Low");
+                Console.WriteLine("2. Sort capital: Low -> High");
+                Console.WriteLine("3. Filter by age: older than x");
+                Console.WriteLine("4. Filter by age: younger than x");
+                Console.WriteLine("5. Filter by age: equals to x");
+                Console.WriteLine("6. Filter by capital: more than x");
+                Console.WriteLine("7. Filter by capital: less than x");
 
 
-                int res = arrowFunc(1, 1, 1, 9);
+                int res = arrowFunc(1, 1, 1, 7);
                 
 
                 switch (res)
                 {
                     case 1:
+                        sortByMoney(listOfClients, 1, 1);
                         break;
                     case 2:
+                        sortByMoney(listOfClients, 1, 0);
                         break;
                     case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
 
                         filterByAge(listOfClients, 0, 1);
                         break;
-                    case 6:
+                    case 4:
 
                         filterByAge(listOfClients, 1, 1);
                         break;
 
-                    case 7:
+                    case 5:
 
                         filterByAge(listOfClients, 2, 1);
                         break;
-                    case 8:
-                        filterByMoney(listOfWorkers, 1, 0);
+                    case 6:
+                        filterByMoney(listOfClients, 1, 0);
                         break;
-                    case 9:
+                    case 7:
                         filterByMoney(listOfWorkers, 1, 1);
                         break;
 
